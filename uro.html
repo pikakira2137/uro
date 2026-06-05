@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wszystkiego Najlepszego ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#1f5fd4,#34b3da);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+    text-align:center;
+}
+
+/* Gwiazdki */
+body::before{
+    content:"✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨";
+    position:fixed;
+    top:5%;
+    left:0;
+    width:100%;
+    font-size:30px;
+    animation:stars 2s infinite alternate;
+    pointer-events:none;
+}
+
+@keyframes stars{
+    from{opacity:.3;}
+    to{opacity:1;}
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 0 30px rgba(0,0,0,.25);
+    max-width:900px;
+    animation:popup 1s ease;
+    z-index:2;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:scale(.5);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+p{
+    font-size:22px;
+    margin-bottom:15px;
+    color:#156796;
+    font-weight:bold;
+}
+
+input{
+    padding:12px;
+    font-size:18px;
+    width:220px;
+    text-align:center;
+    border-radius:10px;
+    border:2px solid #156796;
+}
+
+.photos{
+    display:none;
+    margin-top:25px;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.photos img{
+    width:200px;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+    transition:.4s;
+    box-shadow:0 0 15px rgba(0,0,0,.2);
+}
+
+.photos img:hover{
+    transform:scale(1.1) rotate(3deg);
+}
+
+.message{
+    width:100%;
+    color:#156796;
+    font-size:28px;
+    line-height:1.5;
+    padding:15px;
+}
+
+/* Serduszka */
+.heart{
+    position:fixed;
+    font-size:30px;
+    pointer-events:none;
+    animation:fly 6s linear forwards;
+}
+
+@keyframes fly{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+/* Konfetti */
+.confetti{
+    position:fixed;
+    width:10px;
+    height:10px;
+    pointer-events:none;
+    animation:confettiFall 4s linear forwards;
+}
+
+@keyframes confettiFall{
+    from{
+        transform:translateY(-100px) rotate(0deg);
+        opacity:1;
+    }
+    to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <p>🎂 Twoje urodzinki 🎂</p>
+
+    <input
+        type="text"
+        id="birthdate"
+        placeholder="DD/MM/RRRR"
+        readonly
+    >
+
+    <div class="photos" id="photos">
+
+        <img src="pic1.jpg" alt="Zdjęcie 1">
+        <img src="pic2.jpg" alt="Zdjęcie 2">
+        <img src="pic3.jpg" alt="Zdjęcie 3">
+
+        <div class="message" id="message"></div>
+
+        <img src="pic4.jpg" alt="Zdjęcie 4">
+        <img src="pic5.jpg" alt="Zdjęcie 5">
+        <img src="pic6.jpg" alt="Zdjęcie 6">
+
+    </div>
+
+</div>
+
+<script>
+const input = document.getElementById("birthdate");
+const photos = document.getElementById("photos");
+const message = document.getElementById("message");
+
+let started = false;
+
+const text =
+"Wszystkiego najlepszego skarbie! ❤️ Dużo zdrówka, pieniążków i szczęścia. Życzę Ci też zaradności i tego, żebyś zawsze robiła to, co uważasz za słuszne. Obyś nigdy nie stresowała się szkołą i nie bała się nowych wyzwań. 🎂✨";
+
+function typeWriter() {
+
+    let i = 0;
+    message.innerHTML = "";
+
+    const interval = setInterval(() => {
+
+        message.innerHTML += text.charAt(i);
+        i++;
+
+        if(i >= text.length){
+            clearInterval(interval);
+        }
+
+    }, 35);
+}
+
+function createHeart(){
+
+    const heart = document.createElement("div");
+
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "-50px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    },6000);
+}
+
+function createConfetti(){
+
+    const colors = [
+        "#ff0000",
+        "#00ff00",
+        "#0000ff",
+        "#ffff00",
+        "#ff00ff",
+        "#00ffff",
+        "#ff8800"
+    ];
+
+    for(let i=0;i<120;i++){
+
+        const confetti = document.createElement("div");
+
+        confetti.classList.add("confetti");
+
+        confetti.style.left =
+            Math.random() * window.innerWidth + "px";
+
+        confetti.style.background =
+            colors[Math.floor(Math.random()*colors.length)];
+
+        confetti.style.animationDelay =
+            Math.random()*2 + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        },4000);
+    }
+}
+
+function showBirthday(){
+
+    if(started) return;
+
+    started = true;
+
+    input.value = "04/04/2010";
+
+    createConfetti();
+
+    setTimeout(() => {
+
+        photos.style.display = "flex";
+
+        typeWriter();
+
+        setInterval(createHeart, 500);
+
+    },500);
+}
+
+document.addEventListener("click", showBirthday);
+document.addEventListener("keydown", showBirthday);
+</script>
+
+</body>
+</html>
