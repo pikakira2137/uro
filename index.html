@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -18,10 +19,12 @@ body{
     background:linear-gradient(135deg,#1f5fd4,#34b3da);
     display:flex;
     justify-content:center;
-    align-items:center;
+    align-items:flex-start;
     min-height:100vh;
-    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:auto;
     text-align:center;
+    padding:20px 10px;
 }
 
 /* Gwiazdki */
@@ -34,6 +37,7 @@ body::before{
     font-size:30px;
     animation:stars 2s infinite alternate;
     pointer-events:none;
+    z-index:1;
 }
 
 @keyframes stars{
@@ -47,8 +51,10 @@ body::before{
     border-radius:25px;
     box-shadow:0 0 30px rgba(0,0,0,.25);
     max-width:900px;
+    width:100%;
     animation:popup 1s ease;
     z-index:2;
+    margin:20px 0;
 }
 
 @keyframes popup{
@@ -99,8 +105,10 @@ input{
 }
 
 .photos img{
-    width:200px;
-    height:150px;
+    width:100%;
+    max-width:250px;
+    height:auto;
+    aspect-ratio:4/3;
     object-fit:cover;
     border-radius:12px;
     transition:.4s;
@@ -108,7 +116,7 @@ input{
 }
 
 .photos img:hover{
-    transform:scale(1.1) rotate(3deg);
+    transform:scale(1.05) rotate(2deg);
 }
 
 .message{
@@ -157,6 +165,27 @@ input{
         opacity:0;
     }
 }
+
+@media (max-width:600px){
+
+    p{
+        font-size:20px;
+    }
+
+    .message{
+        font-size:22px;
+    }
+
+    input{
+        width:100%;
+        max-width:250px;
+    }
+
+    .photos{
+        flex-direction:column;
+        align-items:center;
+    }
+}
 </style>
 </head>
 <body>
@@ -201,11 +230,11 @@ const text =
 function typeWriter() {
 
     let i = 0;
-    message.innerHTML = "";
+    message.textContent = "";
 
     const interval = setInterval(() => {
 
-        message.innerHTML += text.charAt(i);
+        message.textContent += text.charAt(i);
         i++;
 
         if(i >= text.length){
@@ -283,7 +312,11 @@ function showBirthday(){
 
         typeWriter();
 
-        setInterval(createHeart, 500);
+        const hearts = setInterval(createHeart, 500);
+
+        setTimeout(() => {
+            clearInterval(hearts);
+        },30000);
 
     },500);
 }
@@ -294,3 +327,4 @@ document.addEventListener("keydown", showBirthday);
 
 </body>
 </html>
+```
